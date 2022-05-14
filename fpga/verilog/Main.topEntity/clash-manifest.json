@@ -1,0 +1,94 @@
+{
+    "components": [
+        "ledmov"
+    ],
+    "flags": [
+        20,
+        20
+    ],
+    "hash": "d4602cf8b6638a9e473970794ab7861d39d81d168ef6b54dd33dd6824ddb33b8",
+    "dependencies": {
+        "transitive": []
+    },
+    "version": "unstable",
+    "files": [
+        {
+            "name": "ledmov_shim.cpp",
+            "sha256": "13dae491fc5e2bfaac9440cfd8dd211a139d65b408f984160bf7530802516a74"
+        },
+        {
+            "name": "ledmov.sdc",
+            "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
+        },
+        {
+            "name": "ledmov.v",
+            "sha256": "7966c5b8b0fedacf71232f8489acd5bc5de58b010d51f926e6f49c22e9051de2"
+        }
+    ],
+    "top_component": {
+        "ports_flat": [
+            {
+                "direction": "in",
+                "domain": "System",
+                "width": 1,
+                "name": "clk",
+                "is_clock": true,
+                "type_name": ""
+            },
+            {
+                "direction": "in",
+                "domain": "System",
+                "width": 1,
+                "name": "reset",
+                "is_clock": false,
+                "type_name": ""
+            },
+            {
+                "direction": "in",
+                "domain": "System",
+                "width": 1,
+                "name": "enable",
+                "is_clock": false,
+                "type_name": ""
+            },
+            {
+                "direction": "in",
+                "width": 2,
+                "name": "btn",
+                "is_clock": false,
+                "type_name": "[1:0]"
+            },
+            {
+                "direction": "out",
+                "width": 8,
+                "name": "led",
+                "is_clock": false,
+                "type_name": "[7:0]"
+            }
+        ],
+        "name": "ledmov"
+    },
+    "domains": {
+        "System": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "XilinxSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Synchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "IntelSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        }
+    }
+}

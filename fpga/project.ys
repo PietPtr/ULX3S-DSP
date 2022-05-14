@@ -1,0 +1,2 @@
+read_verilog verilog/Main/main.v
+synth_ecp5 -noccu2 -nomux -nodram -json project.json

@@ -1,28 +1,48 @@
 {
     "components": [
-        "ledmov"
+        "main"
     ],
     "flags": [
         20,
         20
     ],
-    "hash": "d4602cf8b6638a9e473970794ab7861d39d81d168ef6b54dd33dd6824ddb33b8",
+    "hash": "2a1a44d8cf1e0a553cfe4076680906789a7f7c015f13ddbb0c5ed498a0a0df94",
     "dependencies": {
         "transitive": []
     },
     "version": "unstable",
     "files": [
         {
-            "name": "ledmov_shim.cpp",
-            "sha256": "13dae491fc5e2bfaac9440cfd8dd211a139d65b408f984160bf7530802516a74"
+            "name": "main_shim.cpp",
+            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
         },
         {
-            "name": "ledmov.sdc",
-            "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
+            "name": "main_shim.cpp",
+            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
         },
         {
-            "name": "ledmov.v",
-            "sha256": "7966c5b8b0fedacf71232f8489acd5bc5de58b010d51f926e6f49c22e9051de2"
+            "name": "main_shim.cpp",
+            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
+        },
+        {
+            "name": "main_shim.cpp",
+            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
+        },
+        {
+            "name": "main_shim.cpp",
+            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
+        },
+        {
+            "name": "main_shim.cpp",
+            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
+        },
+        {
+            "name": "main.sdc",
+            "sha256": "fe616bd4a4c06b66aa006a8d1374d0492ed8c85c1ea0e196f5aa6bd4663dcaf3"
+        },
+        {
+            "name": "main.v",
+            "sha256": "811a47c3ccc48ac1ba4bf27af65487c1e2e343b24ab5869189b12c6ef631f796"
         }
     ],
     "top_component": {
@@ -31,7 +51,7 @@
                 "direction": "in",
                 "domain": "System",
                 "width": 1,
-                "name": "clk",
+                "name": "clk_25mhz",
                 "is_clock": true,
                 "type_name": ""
             },
@@ -66,7 +86,7 @@
                 "type_name": "[7:0]"
             }
         ],
-        "name": "ledmov"
+        "name": "main"
     },
     "domains": {
         "System": {

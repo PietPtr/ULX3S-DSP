@@ -2,12 +2,12 @@
 
 #include <verilated.h>
 
-#include "Vledmov.h"
+#include "Vmain.h"
 
 int main(int argc, char **argv) {
   Verilated::commandArgs(argc, argv);
 
-  Vledmov *top = new Vledmov;
+  Vmain *top = new Vmain;
 
   while(!Verilated::gotFinish()) {
     top->eval();

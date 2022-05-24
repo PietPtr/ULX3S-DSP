@@ -7,98 +7,155 @@ module main
       input  clk_25mhz // clock
     , input  reset // reset
     , input  enable // enable
-    , input [1:0] btn
+    , input  adc_miso
 
       // Outputs
-    , output wire [7:0] led
+    , output wire  adc_csn
+    , output wire  adc_mosi
+    , output wire  adc_sclk
+    , output wire [3:0] led
     );
-  // src/ADC.hs:(33,1)-(34,44)
-  reg [29:0] c$ds_app_arg = {8'd1,   21'd0,   1'b1};
-  wire signed [63:0] x1;
-  reg [7:0] c$case_alt;
-  wire [7:0] c$case_alt_0;
-  reg [7:0] c$case_alt_1;
-  wire [7:0] c$case_alt_2;
-  wire signed [63:0] c$$s$fBitsUnsigned_$crotateOut_app_arg;
-  wire [7:0] c$case_alt_3;
-  wire [7:0] c$case_alt_4;
-  wire [7:0] result;
-  wire [7:0] c$app_arg;
-  wire  c$app_arg_0;
-  wire [37:0] c$case_alt_5;
-  // src/ADC.hs:12:1-3
-  wire [7:0] leds;
-  // src/ADC.hs:12:1-3
-  wire [20:0] counter;
-  // src/ADC.hs:12:1-3
-  wire  ready;
-  wire signed [63:0] c$case_alt_selection_res;
-  wire signed [63:0] c$case_alt_selection_res_0;
+  // src/ADC.hs:(6,1)-(7,57)
+  reg [24:0] c$ds1_app_arg = {2'b00,23'bxxxxxxxxxxxxxxxxxxxxxxx};
+  wire  c$app_arg;
+  wire [11:0] c$app_arg_0;
+  reg [11:0] result_0 = 12'd0;
+  wire [14:0] result_1;
+  // src/ADC.hs:(6,1)-(7,57)
+  wire [11:0] a1;
+  // src/ADC.hs:(6,1)-(7,57)
+  wire [12:0] iM;
+  wire [39:0] result_2;
+  reg [12:0] c$app_arg_1;
+  // src/ADC.hs:37:1-6
+  wire [15:0] d;
+  reg  c$app_arg_2;
+  reg  c$app_arg_3;
+  wire signed [63:0] c$app_arg_4;
+  reg [24:0] c$app_arg_5;
+  reg [24:0] c$case_alt;
+  reg [24:0] c$case_alt_0;
+  wire signed [63:0] c$app_arg_6;
+  // src/ADC.hs:37:1-6
+  wire [15:0] d_0;
+  // src/ADC.hs:37:1-6
+  wire [4:0] ctr;
+  wire [15:0] c$bv;
+  wire [63:0] c$i_3;
+  wire [1:0] c$i_6;
+  wire [1:0] c$case_alt_selection_1;
+  wire [11:0] c$bv_0;
+  wire [6:0] result;
 
   // register begin
-  always @(posedge clk_25mhz or  posedge  reset) begin : c$ds_app_arg_register
+  always @(posedge clk_25mhz or  posedge  reset) begin : c$ds1_app_arg_register
     if ( reset) begin
-      c$ds_app_arg <= {8'd1,   21'd0,   1'b1};
+      c$ds1_app_arg <= {2'b00,23'bxxxxxxxxxxxxxxxxxxxxxxx};
     end else if (enable) begin
-      c$ds_app_arg <= c$case_alt_5[37:8];
+      c$ds1_app_arg <= result_2[39:15];
     end
   end
   // register end
 
-  assign led = c$case_alt_5[7:0];
+  assign c$app_arg = iM[12:12] ? 1'b1 : 1'b0;
 
-  assign x1 = c$$s$fBitsUnsigned_$crotateOut_app_arg;
+  assign c$app_arg_0 = iM[12:12] ? a1 : ({12 {1'bx}});
 
-  assign c$case_alt_selection_res = (x1 < 64'sd0) ? 64'sd1 : 64'sd0;
+  // register begin
+  always @(posedge clk_25mhz or  posedge  reset) begin : result_0_register
+    if ( reset) begin
+      result_0 <= 12'd0;
+    end else if (enable & c$app_arg) begin
+      result_0 <= c$app_arg_0;
+    end
+  end
+  // register end
+
+  assign result_1 = {result_2[13:13],   1'b0,
+                     result_2[14:14],   result_0};
+
+  assign a1 = iM[11:0];
+
+  assign iM = result_2[12:0];
+
+  assign result_2 = {c$app_arg_5,   {c$app_arg_3,
+                                     c$app_arg_2,   c$app_arg_1}};
+
+  assign c$bv = (d >> 64'sd3);
 
   always @(*) begin
-    case(c$case_alt_selection_res)
-      64'sd1 : c$case_alt = c$case_alt_0;
-      default : c$case_alt = c$case_alt_1;
+    case(c$ds1_app_arg[24:23])
+      2'b00 : c$app_arg_1 = {13 {1'bx}};
+      2'b01 : c$app_arg_1 = {1'b0,12'bxxxxxxxxxxxx};
+      default : c$app_arg_1 = {1'b1,c$bv[0+:12]};
     endcase
   end
 
-  // rotateR begin
-  wire [2*8-1:0] u;
-  assign u = {leds,leds} >> (-(x1) % 8);
-  assign c$case_alt_0 = u[8-1 : 0];
-  // rotateR end
-
-  assign c$case_alt_selection_res_0 = (x1 > 64'sd0) ? 64'sd1 : 64'sd0;
+  assign d = c$ds1_app_arg[22:7];
 
   always @(*) begin
-    case(c$case_alt_selection_res_0)
-      64'sd1 : c$case_alt_1 = c$case_alt_2;
-      default : c$case_alt_1 = leds;
+    case(c$ds1_app_arg[24:23])
+      2'b00 : c$app_arg_2 = 1'b1;
+      default : c$app_arg_2 = 1'b0;
     endcase
   end
 
-  // rotateL begin
-  wire [2*8-1:0] u_0;
-  assign u_0 = {leds,leds} << (c$$s$fBitsUnsigned_$crotateOut_app_arg % 8);
-  assign c$case_alt_2 = u_0[2*8-1 : 8];
-  // rotateL end
+  assign c$i_3 = 64'd0;
 
-  assign c$$s$fBitsUnsigned_$crotateOut_app_arg = btn[1:1] ? -64'sd1 : 64'sd1;
+  always @(*) begin
+    case(c$ds1_app_arg[24:23])
+      2'b01 : c$app_arg_3 = c$i_3[0] ? 1'bx : c$app_arg_4[0];
+      default : c$app_arg_3 = 1'b0;
+    endcase
+  end
 
-  assign c$case_alt_3 = btn[0:0] ? c$case_alt : leds;
+  assign c$i_6 = (c$ds1_app_arg[22:21] >> 64'sd1);
 
-  assign c$case_alt_4 = btn[0:0] ? leds : c$case_alt;
+  assign c$app_arg_4 = $unsigned({{(64-2) {1'b0}},c$i_6});
 
-  assign result = btn[1:1] ? c$case_alt_4 : c$case_alt_3;
+  always @(*) begin
+    case(c$ds1_app_arg[24:23])
+      2'b00 : c$app_arg_5 = {2'b01,2'd3,5'd16,16'd0};
+      2'b01 : c$app_arg_5 = c$case_alt;
+      default : c$app_arg_5 = {2'b01,2'd3,5'd16,16'd65535};
+    endcase
+  end
 
-  assign c$app_arg = ready ? result : leds;
+  assign c$case_alt_selection_1 = c$ds1_app_arg[22:21];
 
-  assign c$app_arg_0 = ready ? (~ (btn[1:1] | btn[0:0])) : (counter == 21'd0);
+  always @(*) begin
+    case(c$case_alt_selection_1)
+      2'd0 : c$case_alt = c$case_alt_0;
+      default : c$case_alt = {2'b01,c$ds1_app_arg[22:21] - 2'd1,ctr,d_0};
+    endcase
+  end
 
-  assign c$case_alt_5 = {{c$app_arg,
-                          counter + 21'd1,   c$app_arg_0},   leds};
+  always @(*) begin
+    case(ctr)
+      5'd0 : c$case_alt_0 = {2'b10,d_0,7'bxxxxxxx};
+      default : c$case_alt_0 = {2'b01,2'd3,ctr - 5'd1,(d_0 << 64'sd1) | ($unsigned(c$app_arg_6[0+:16]))};
+    endcase
+  end
 
-  assign leds = c$ds_app_arg[29:22];
+  assign c$app_arg_6 = (adc_miso == (1'b0)) ? 64'sd0 : 64'sd1;
 
-  assign counter = c$ds_app_arg[21:1];
+  assign d_0 = c$ds1_app_arg[15:0];
 
-  assign ready = c$ds_app_arg[0:0];
+  assign ctr = c$ds1_app_arg[20:16];
+
+  assign c$bv_0 = (result_1[11:0] >> 64'sd8);
+
+  assign result = {result_1[14:14],
+                   result_1[13:13],   result_1[12:12],
+                   c$bv_0[0+:4]};
+
+  assign adc_csn = result[6:6];
+
+  assign adc_mosi = result[5:5];
+
+  assign adc_sclk = result[4:4];
+
+  assign led = result[3:0];
 
 
 endmodule

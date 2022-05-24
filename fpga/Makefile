@@ -24,3 +24,6 @@ clean:
 
 flash:
 	fujprog ulx3s/bitstream.bit
+
+clashi:
+	clashi -isrc src/Main.hs

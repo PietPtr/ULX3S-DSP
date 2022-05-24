@@ -1,35 +1,59 @@
 module ADC where
 
 import Clash.Prelude
+import Types
 
-type Btn = Bool
-type LEDs = Unsigned 8
-
-type State = (LEDs, Unsigned 21, Bool)
-
-
-mov :: State -> (Btn, Btn) -> (State, LEDs)
-mov (leds, counter, ready) input = ((leds', counter', ready'), output)
+top :: HiddenClockResetEnable dom =>
+    Signal dom Bit -> Signal dom (Bool, Bit, Bit, Sample)
+top miso = bundle (csn, mosi, sclk, sample)
     where
-        -- input sigs
+        mosi = pure 0
 
-        -- state
-        leds' = if ready 
-            then case input of
-                (True, True) -> leds
-                (True, False) -> rotate leds (-1)
-                (False, True) -> rotate leds 1
-                (False, False) -> leds
-            else leds
-            
-        ready' = case ready of
-            False -> counter == 0
-            True -> not $ fst input || snd input
+        (sclk, csn, maybeSample) = unbundle $ mealy logger (Start) miso
+        sample = regMaybe 0 maybeSample
 
-        counter' = counter + 1
-        -- output
-        output = leds
+{-
+ADC Configuration register:
+    REFSEL = 0 (default)
+Unipolar register:
+    zet alle bits naar 0 zodat elk channel single ended doet (is al default)
+Bipolar register:
+    zet alle bits naar 0 voor unipolar (default)
 
-movB :: HiddenClockResetEnable dom =>
-    Signal dom (Btn, Btn) -> Signal dom LEDs
-movB = mealy mov (1, 0, True)
+ADC Mode Control
+    SCAN[3:0] = 0001 (default)
+    CHSEL[3:0] = 0000 (channel 0 dus, default)
+    PM[1:0] = 00 (altijd power on, default)
+-}
+
+
+data LogState
+    = Start
+    | Reading (Unsigned 2) (Index 17) (Unsigned 16)
+    | Forwarding (Unsigned 16)
+    deriving (Show, Generic, NFDataX)
+
+logger :: LogState -> Bit -> (LogState, (Bit, Bool, Maybe Sample))
+logger state miso = (state', (clk_out, csn, sample))
+    where
+        state' = case state of
+            Start -> Reading maxBound maxBound def
+            Reading 0 ctr d -> if ctr == 0
+                then Forwarding d
+                else Reading maxBound (ctr - 1) vec
+                    where
+                        vec = d `shiftL` 1 .|. (fromIntegral miso)
+            Reading n ctr d -> Reading (n-1) ctr d
+            Forwarding d -> Reading maxBound maxBound maxBound
+
+        csn = case state of
+            Start -> True
+            _ -> False
+        
+        clk_out = case state of
+            Reading clk _ _ -> fromIntegral $ clk `shiftR` 1
+            _ -> 0
+
+        sample = case state of
+            Reading _ _ _ -> Nothing
+            Forwarding d -> Just $ resize $ d `shiftR` 3

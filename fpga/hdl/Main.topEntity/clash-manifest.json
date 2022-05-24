@@ -6,7 +6,7 @@
         20,
         20
     ],
-    "hash": "2a1a44d8cf1e0a553cfe4076680906789a7f7c015f13ddbb0c5ed498a0a0df94",
+    "hash": "c0ee06c480244e02c09175abd53e0682e8bfbfe4e00f926d65882329ff7f42f7",
     "dependencies": {
         "transitive": []
     },
@@ -17,32 +17,12 @@
             "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
         },
         {
-            "name": "main_shim.cpp",
-            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
-        },
-        {
-            "name": "main_shim.cpp",
-            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
-        },
-        {
-            "name": "main_shim.cpp",
-            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
-        },
-        {
-            "name": "main_shim.cpp",
-            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
-        },
-        {
-            "name": "main_shim.cpp",
-            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
-        },
-        {
             "name": "main.sdc",
             "sha256": "fe616bd4a4c06b66aa006a8d1374d0492ed8c85c1ea0e196f5aa6bd4663dcaf3"
         },
         {
             "name": "main.v",
-            "sha256": "811a47c3ccc48ac1ba4bf27af65487c1e2e343b24ab5869189b12c6ef631f796"
+            "sha256": "cab148db0e26888ab31664777feb29c192e8e01fddf234135d7b2d52c4b7423c"
         }
     ],
     "top_component": {
@@ -73,17 +53,38 @@
             },
             {
                 "direction": "in",
-                "width": 2,
-                "name": "btn",
+                "width": 1,
+                "name": "adc_miso",
                 "is_clock": false,
-                "type_name": "[1:0]"
+                "type_name": ""
             },
             {
                 "direction": "out",
-                "width": 8,
+                "width": 1,
+                "name": "adc_csn",
+                "is_clock": false,
+                "type_name": ""
+            },
+            {
+                "direction": "out",
+                "width": 1,
+                "name": "adc_mosi",
+                "is_clock": false,
+                "type_name": ""
+            },
+            {
+                "direction": "out",
+                "width": 1,
+                "name": "adc_sclk",
+                "is_clock": false,
+                "type_name": ""
+            },
+            {
+                "direction": "out",
+                "width": 4,
                 "name": "led",
                 "is_clock": false,
-                "type_name": "[7:0]"
+                "type_name": "[3:0]"
             }
         ],
         "name": "main"

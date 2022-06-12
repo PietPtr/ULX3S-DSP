@@ -1,6 +1,6 @@
 module Recursive where
 
-import Clash.Prelude hiding ((++), map, foldl, filter, zip, zipWith, length, splitAt)
+import Clash.Prelude hiding ((++), map, foldl, filter, zip, zipWith, length, splitAt, zipWith3)
 import Data.List as L
 import Data.Complex
 import Debug.Trace
@@ -12,22 +12,15 @@ fft n [wat] = []
 fft n [ev, od] = [ev + expi n 0 * od, ev - expi n 0 * od]
 fft n samples = upper ++ lower
     where
-        upper = combineUp 0 evenffts oddffts
-        lower = combineDown 0 evenffts oddffts
+        upper = combineUp 1 evenffts oddffts
+        lower = combineUp (-1) evenffts oddffts
 
         evenffts = fft' $ evens samples
         oddffts = fft' $ odds samples
 
-        (oddsUp, oddsDown) = splitHalf $ odds samples
-        (evensUp, evensDown) = splitHalf $ evens samples
+        combineUp signum = zipWith3 combine [0..]
+            where combine k ev od = ev + signum * expi n k * od
 
-        combineUp k [] [] = []
-        combineUp k (ev:evens) (od:odds) = (ev + expi n k * od) : combineUp (k + 1) evens odds
-
-        combineDown k [] [] = []
-        combineDown k (ev:evens) (od:odds) = (ev - expi n k * od) : combineDown (k + 1) evens odds
-
-        splitHalf l = splitAt ((length l + 1) `div` 2) l
 
 fft' :: [Complex Double] -> [Complex Double]
 fft' samples = fft (L.length samples) samples

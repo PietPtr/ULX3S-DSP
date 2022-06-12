@@ -19,7 +19,7 @@ for (samp, freq) in array:
 
 normalized = []
 for (time, freq) in array:
-    normalized.append((time, freq / maxfreq * maxsamp))
+    normalized.append((time, freq * 0.025))
 
 # plt.title("Line graph")
 # plt.xlabel("X axis")

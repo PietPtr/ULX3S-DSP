@@ -99,11 +99,18 @@ csvfft samples = writeFile "fft.csv" text
 csvifft :: [Complex Double] -> IO ()
 csvifft freqs = writeFile "ifft.csv" text
     where
+        samples = ifft' freqs
         realsT = map (show . realPart) samples
         imagsT = map (show . imagPart) samples
 
         freqMags = map (show . magnitude) $ freqs
 
-        -- samples = map (show . magnitude) $ ifft' samples
-        
-        text = unlines $ zipWith (\a b -> a ++ "," ++ b) realsT freq
+        text = unlines $ zipWith (\a b -> a ++ "," ++ b) realsT freqMags
+
+-- Violin demonstrator
+elongatedNote :: [Complex Double]
+elongatedNote = L.take (1024 * 100) infiniteNote
+    where
+        spectrum = fft' violin
+        infiniteNote = L.cycle $ ifft' spectrum
+

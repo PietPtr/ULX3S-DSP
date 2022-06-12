@@ -12,14 +12,14 @@ with open('fft.csv') as csvfile:
         array.append((float(time), float(freq)))
 
 maxfreq = 0
-for (_, freq) in array:
+maxsamp = 0
+for (samp, freq) in array:
     maxfreq = max(freq, maxfreq)
-
-print(maxfreq)
+    maxsamp = max(samp, maxsamp)
 
 normalized = []
 for (time, freq) in array:
-    normalized.append((time, freq / maxfreq))
+    normalized.append((time, freq / maxfreq * maxsamp))
 
 # plt.title("Line graph")
 # plt.xlabel("X axis")

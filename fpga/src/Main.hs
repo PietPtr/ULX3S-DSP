@@ -11,13 +11,13 @@ import qualified Effects.ConstantSine
 import qualified DAC
 
 system :: HiddenClockResetEnable dom =>
-    Signal dom (Bit) -> Signal dom (Bool, Bit, Bit, DACOut)
-system miso = bundle (csn, mosi, sclk, dac)
+    Signal dom (Bit) -> Signal dom (Bool, Bit, Bit, DACOut, Bit)
+system miso = bundle (csn, mosi, sclk, dac, miso)
     where
         dac = DAC.top sample
         -- sample = Effects.ConstantSine.effect (pure 1)
         sample = adcSample -- the identity effect 
-        (csn, mosi, sclk, adcSample) = unbundle $ ADC.top miso
+        (csn, mosi, sclk, adcSample) = unbundle $ ADC.top' miso
 
 {-# ANN topEntity
   (Synthesize
@@ -30,14 +30,15 @@ system miso = bundle (csn, mosi, sclk, dac)
         [ PortName "adc_csn"
         , PortName "adc_mosi"
         , PortName "adc_sclk"
-        , PortName "led"]
+        , PortName "led"
+        , PortName "adc_miso_monitor"]
     }) #-}
 topEntity ::
      Clock System
      -> Reset System
      -> Enable System
      -> Signal System (Bit)
-     -> Signal System (Bool, Bit, Bit, DACOut)
+     -> Signal System (Bool, Bit, Bit, DACOut, Bit)
 topEntity = exposeClockResetEnable system
 
 main = print "Compile this hardware description to Verilog with Clash."

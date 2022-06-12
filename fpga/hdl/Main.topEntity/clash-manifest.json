@@ -4,89 +4,88 @@
     ],
     "flags": [
         20,
-        20
+        20,
+        false
     ],
-    "hash": "c0ee06c480244e02c09175abd53e0682e8bfbfe4e00f926d65882329ff7f42f7",
+    "hash": 3855712650340947895,
     "dependencies": {
         "transitive": []
     },
     "version": "unstable",
     "files": [
         {
-            "name": "main_shim.cpp",
-            "sha256": "a9286f2f72f976d8ed6a8de35e76618a34a38b2af4ad4bc2e692f8bf6eb38f6f"
-        },
-        {
             "name": "main.sdc",
             "sha256": "fe616bd4a4c06b66aa006a8d1374d0492ed8c85c1ea0e196f5aa6bd4663dcaf3"
         },
         {
             "name": "main.v",
-            "sha256": "cab148db0e26888ab31664777feb29c192e8e01fddf234135d7b2d52c4b7423c"
+            "sha256": "a811aa9a15335b9f129627325d23a4cfb2ae9549f63a6ad28cb6920322bc1666"
         }
     ],
     "top_component": {
-        "ports_flat": [
-            {
-                "direction": "in",
-                "domain": "System",
-                "width": 1,
-                "name": "clk_25mhz",
-                "is_clock": true,
-                "type_name": ""
-            },
-            {
-                "direction": "in",
-                "domain": "System",
-                "width": 1,
-                "name": "reset",
-                "is_clock": false,
-                "type_name": ""
-            },
-            {
-                "direction": "in",
-                "domain": "System",
-                "width": 1,
-                "name": "enable",
-                "is_clock": false,
-                "type_name": ""
-            },
-            {
-                "direction": "in",
-                "width": 1,
-                "name": "adc_miso",
-                "is_clock": false,
-                "type_name": ""
-            },
-            {
-                "direction": "out",
-                "width": 1,
-                "name": "adc_csn",
-                "is_clock": false,
-                "type_name": ""
-            },
-            {
-                "direction": "out",
-                "width": 1,
-                "name": "adc_mosi",
-                "is_clock": false,
-                "type_name": ""
-            },
-            {
-                "direction": "out",
-                "width": 1,
-                "name": "adc_sclk",
-                "is_clock": false,
-                "type_name": ""
-            },
-            {
-                "direction": "out",
-                "width": 4,
-                "name": "led",
-                "is_clock": false,
-                "type_name": "[3:0]"
-            }
-        ],
+        "ports_flat": {
+            "in": [
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "clk_25mhz",
+                    "is_clock": true,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "reset",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "enable",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 1,
+                    "name": "adc_miso",
+                    "is_clock": false,
+                    "type_name": ""
+                }
+            ],
+            "out": [
+                {
+                    "width": 1,
+                    "name": "adc_csn",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 1,
+                    "name": "adc_mosi",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 1,
+                    "name": "adc_sclk",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 4,
+                    "name": "led",
+                    "is_clock": false,
+                    "type_name": "[3:0]"
+                },
+                {
+                    "width": 1,
+                    "name": "adc_miso_monitor",
+                    "is_clock": false,
+                    "type_name": ""
+                }
+            ]
+        },
         "name": "main"
     },
     "domains": {

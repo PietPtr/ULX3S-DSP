@@ -1,5 +1,7 @@
 module Recursive where
 
+import Violin
+
 import Clash.Prelude hiding ((++), map, foldl, filter, zip, zipWith, length, splitAt, zipWith3)
 import Data.List as L
 import Data.Complex
@@ -8,19 +10,39 @@ import Debug.Trace
 
 fft :: Int -> [(Complex Double)] -> [(Complex Double)]
 fft n [] = []
-fft n [wat] = []
 fft n [ev, od] = [ev + expi n 0 * od, ev - expi n 0 * od]
 fft n samples = upper ++ lower
     where
-        upper = combineUp 1 evenffts oddffts
-        lower = combineUp (-1) evenffts oddffts
+        upper = combine 1 evenffts oddffts
+        lower = combine (-1) evenffts oddffts
 
         evenffts = fft' $ evens samples
         oddffts = fft' $ odds samples
 
-        combineUp signum = zipWith3 combine [0..]
-            where combine k ev od = ev + signum * expi n k * od
+        combine signum = zipWith3 combine' [0..]
+            where combine' k ev od = ev + signum * expi n k * od
 
+ifft :: Int -> [Complex Double] -> [Complex Double]
+ifft n [] = []
+ifft n [ev, od] = 
+    [ recipr * (ev + (expi' 1 n 0) * od)
+    , recipr * (ev - ((expi' 1 n 0) * od))]
+    where 
+        recipr = 1.0 / fromIntegral n :+ 0 
+ifft n freqs = upper ++ lower
+    where
+        upper = combine 1 evenSamples oddSamples
+        lower = combine (-1) evenSamples oddSamples
+
+        evenSamples = ifft' $ evens freqs
+        oddSamples = ifft' $ odds freqs
+
+        combine signum = zipWith3 combine' [0..]
+            where combine' k ev od = ev + signum * (expi' 1 n k) * od
+
+
+ifft' :: [Complex Double] -> [Complex Double]
+ifft' freqs = ifft (L.length freqs) freqs
 
 fft' :: [Complex Double] -> [Complex Double]
 fft' samples = fft (L.length samples) samples
@@ -37,11 +59,13 @@ evens [] = []
 evens [a] = [a]
 evens (ev:_:rest) = ev : evens rest
 
-expi :: Int -> Int -> Complex Double
+expi = expi' (-1)
+
+expi' :: Int -> Int -> Int -> Complex Double
 -- expi n 0 = 1 :+ 0 -- TODO: proof
-expi n k = exp $ 0 :+ (twopii * fromIntegral k)
+expi' signum n k = exp $ 0 :+ (twopii * fromIntegral k)
     where
-        twopii = (- 2 * pi / fromIntegral n)
+        twopii = (fromIntegral signum * 2 * pi / fromIntegral n)
 
 -- signal generators, n is taken to the power of 2 for the amount of samples
 sine :: Int -> Double -> Double -> [Complex Double]
@@ -68,5 +92,18 @@ csvfft samples = writeFile "fft.csv" text
         imagsT = map (show . imagPart) samples
 
         freq = map (show . magnitude) $ fft' samples
+        
+        text = unlines $ zipWith (\a b -> a ++ "," ++ b) realsT freq
+
+
+csvifft :: [Complex Double] -> IO ()
+csvifft freqs = writeFile "ifft.csv" text
+    where
+        realsT = map (show . realPart) samples
+        imagsT = map (show . imagPart) samples
+
+        freqMags = map (show . magnitude) $ freqs
+
+        -- samples = map (show . magnitude) $ ifft' samples
         
         text = unlines $ zipWith (\a b -> a ++ "," ++ b) realsT freq

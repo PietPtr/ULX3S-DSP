@@ -2,8 +2,10 @@ import matplotlib.pyplot as plt
 import csv
 
 import numpy as np
+import math
 
 array = []
+SAMPLERATE = 44100 # 44100 samples in one second
 
 with open('fft.csv') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
@@ -11,20 +13,35 @@ with open('fft.csv') as csvfile:
         (time, freq) = (row[0], row[1])
         array.append((float(time), float(freq)))
 
-maxfreq = 0
-maxsamp = 0
-for (samp, freq) in array:
-    maxfreq = max(freq, maxfreq)
-    maxsamp = max(samp, maxsamp)
+N = len(array)
 
-normalized = []
-for (time, freq) in array:
-    normalized.append((time, freq * 0.025))
 
-# plt.title("Line graph")
-# plt.xlabel("X axis")
-# plt.ylabel("Y axis")
-plt.plot([x for x in range(len(normalized))], [time for (time, _) in normalized], color ="red")
-plt.plot([x for x in range(len(normalized))], [freq for (_, freq) in normalized], color='blue')
+times = [time for (time, _) in array]
+freqs = [freq for (_, freq) in array][0:(N//2)]
+
+freqs_log = [freqs[int(math.log(i+1))] for i in range(N//2)]
+
+
+fs_over_N = SAMPLERATE / N
+
+xaxis_freq = [x * fs_over_N for x in range(N // 2)]
+xaxis_time = [x / 44100.0 for x in range(N)]
+
+fig, axs = plt.subplots(2)
+
+plt.rcParams['toolbar'] = 'toolbar2'
+axs[0].plot(xaxis_time, times, color='red')
+axs[1].plot(xaxis_freq, freqs, color='blue')
+axs[1].set_xscale('log')
+
+
+
+largest_freq_idx = 0
+for i in range(len(freqs)):
+    if freqs[i] > freqs[largest_freq_idx]:
+        largest_freq_idx = i
+
+print(f"Strongest frequency: {largest_freq_idx * fs_over_N}Hz at {freqs[largest_freq_idx]}")
+
 
 plt.show()

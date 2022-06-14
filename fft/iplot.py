@@ -11,20 +11,14 @@ with open('ifft.csv') as csvfile:
         (time, freq) = (row[1], row[0])
         array.append((float(time), float(freq)))
 
-maxfreq = 0
-maxsamp = 0
-for (samp, freq) in array:
-    maxfreq = max(freq, maxfreq)
-    maxsamp = max(samp, maxsamp)
+times = [time for (_, time) in array]
+freqs = [freq for (freq, _) in array]
 
-normalized = []
-for (time, freq) in array:
-    normalized.append((time, freq * 0.025))
+ax1 = plt.subplot()
+l1, = ax1.plot([x for x in range(len(array))], times, color='red')
+ax2 = ax1.twinx()
+l2, = ax2.plot(freqs, color='blue')
 
-# plt.title("Line graph")
-# plt.xlabel("X axis")
-# plt.ylabel("Y axis")
-plt.plot([x for x in range(len(normalized))], [time for (time, _) in normalized], color ="red")
-plt.plot([x for x in range(len(normalized))], [freq for (_, freq) in normalized], color='blue')
+plt.legend([l1, l2], ["times", "freqs"])
 
 plt.show()

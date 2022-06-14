@@ -2,7 +2,9 @@ module Recursive where
 
 import Violin
 
-import Clash.Prelude hiding ((++), map, foldl, filter, zip, zipWith, length, splitAt, zipWith3)
+import Clash.Prelude hiding (
+    (++), map, foldl, filter, zip, zipWith, length, splitAt, zipWith3, take, 
+    repeat, drop)
 import Data.List as L
 import Data.Complex
 import Debug.Trace
@@ -10,7 +12,8 @@ import Debug.Trace
 
 fft :: Int -> [(Complex Double)] -> [(Complex Double)]
 fft n [] = []
-fft n [ev, od] = [ev + expi n 0 * od, ev - expi n 0 * od]
+fft n [x] = [x]
+-- fft n [ev, od] = [ev + expi n 0 * od, ev - expi n 0 * od]
 fft n samples = upper ++ lower
     where
         upper = combine 1 evenffts oddffts
@@ -69,12 +72,15 @@ expi' signum n k = exp $ 0 :+ (twopii * fromIntegral k)
 
 -- signal generators, n is taken to the power of 2 for the amount of samples
 sine :: Int -> Double -> Double -> [Complex Double]
-sine n amp freq = [amp * sin (freq * x * mult) :+ 0 | x <- [0..2^^n - 1]]
+sine n amp freq = [amp * sin ((freq / 44100) * x * mult) :+ 0 | x <- [0..2^^n - 1]]
     where
         mult = 2*pi
 
 (+++) :: [Complex Double] -> [Complex Double] -> [Complex Double]
 as +++ bs = zipWith (+) as bs
+
+constant :: Int -> [Complex Double]
+constant n = [fromIntegral 1 | x <- [0..2^^n - 1]]
 
 -- write the real part and imaginary part to a csv for inspection
 csv :: [Complex Double] -> IO ()

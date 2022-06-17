@@ -15,17 +15,15 @@ with open('fft.csv') as csvfile:
 
 N = len(array)
 
-
 times = [time for (time, _) in array]
 freqs = [freq for (_, freq) in array][0:(N//2)]
 
 freqs_log = [freqs[int(math.log(i+1))] for i in range(N//2)]
 
-
 fs_over_N = SAMPLERATE / N
 
 xaxis_freq = [x * fs_over_N for x in range(N // 2)]
-xaxis_time = [x / 44100.0 for x in range(N)]
+xaxis_time = [x / 44100 for x in range(N)]
 
 fig, axs = plt.subplots(2)
 

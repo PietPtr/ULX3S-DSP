@@ -11,7 +11,7 @@ for d in data:
     i += 1
 
 print(array)
-with open('long_sample.wav', 'w') as csv_file:
+with open('long_sample.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
     for s in array:
         writer.writerow([s])

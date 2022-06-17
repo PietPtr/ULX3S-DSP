@@ -1,4 +1,4 @@
-module Recursive where
+module TowardsHW where
 
 import Violin
 
@@ -8,7 +8,7 @@ import Clash.Prelude hiding (
 import Data.List as L
 import Data.Complex
 import Debug.Trace
-
+import Prelude (getLine)
 
 fft :: Int -> [(Complex Double)] -> [(Complex Double)]
 fft n [] = []
@@ -119,4 +119,10 @@ elongatedNote = L.take (1024 * 100) infiniteNote
     where
         spectrum = fft' violin
         infiniteNote = L.cycle $ ifft' spectrum
+
+elongatedNote' :: Int -> [Complex Double]
+elongatedNote' n = take (round $ 2 ^^ n) $ infiniteNote
+    where
+        infiniteNote = L.cycle $ drop 54 violin
+
 
